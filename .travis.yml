@@ -1,0 +1,27 @@
+language: generic 
+sudo: required
+services:
+  - docker
+
+before_install:
+  - docker build -t rakesh/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  - docker run -e CI=true rakesh/react-test npm test -- --coverage
+
+after_success:
+  - docker build -t rakesh/multi-client ./client
+  - docker build -t rakesh/multi-nginx ./nginx
+  - docker build -t rakesh/multi-server ./server
+  - docker build -t rakesh/multi-worker ./worker
+
+ # LOGIN TO TRAVIS CLI
+ - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
+
+ # push to docker hub
+ - docker push rakesh/multi-client
+ - docker push rakesh/multi-nginx
+ - docker push rakesh/multi-server
+ - docker push rakesh/multi-worker
+ 
+
