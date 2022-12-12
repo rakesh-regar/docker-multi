@@ -5,20 +5,20 @@ services:
   - docker
 
 before_install:
-  - docker build -t rakesh8SB/react-test -f ./client/Dockerfile.dev ./client
+  - docker build -t rakeshsb/react-test -f ./client/Dockerfile.dev ./client
 
 script:
-  - docker run -e CI=true rakesh8SB/react-test npm test
+  - docker run -e CI=true rakeshsb/react-test npm test
 
 after_success:
-  - docker build -t rakesh8SB/multi-client ./client
-  - docker build -t rakesh8SB/multi-nginx ./nginx
-  - docker build -t rakesh8SB/multi-server ./server
-  - docker build -t rakesh8SB/multi-worker ./worker
+  - docker build -t rakeshsb/multi-client ./client
+  - docker build -t rakeshsb/multi-nginx ./nginx
+  - docker build -t rakeshsb/multi-server ./server
+  - docker build -t rakeshsb/multi-worker ./worker
   # Log in to the docker CLI
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
   # Take those images and push them to docker hub
-  - docker push rakesh8SB/multi-client
-  - docker push rakesh8SB/multi-nginx
-  - docker push rakesh8SB/multi-server
-  - docker push rakesh8SB/multi-worker
+  - docker push rakeshsb/multi-client
+  - docker push rakeshsb/multi-nginx
+  - docker push rakeshsb/multi-server
+  - docker push rakeshsb/multi-worker
